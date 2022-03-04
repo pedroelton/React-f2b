@@ -9,7 +9,7 @@ function FeedbackForm() {
     
     const [text, setText] = useState('')
     const [rating, setRating] = useState('10')
-    const [btnDisabled, setbtnDisabled] = useState(true)
+    const [btnDisabled, setBtnDisabled] = useState(true)
     const [message, setMessage] = useState('')
     
     const {addFeedback, feedbackEdit, updateFeedback} = useContext(FeedbackContext)
@@ -17,7 +17,7 @@ function FeedbackForm() {
     useEffect(() => {
 
         if (feedbackEdit.edit === true) {
-            setbtnDisabled(false)
+            setBtnDisabled(false)
             setText(feedbackEdit.item.text)
             setRating(feedbackEdit.item.rating)
         }
@@ -26,19 +26,19 @@ function FeedbackForm() {
 
     const handleTextChange = (e) => {
         if (text === "") {
-            setbtnDisabled(true)
+            setBtnDisabled(true)
             setMessage(null)
         } else if (text !== "" && text.trim().length <= 10) {
             setMessage('Text must be at least 10 characters')
-            setbtnDisabled(true)
+            setBtnDisabled(true)
         } else {
             setMessage(null)
-            setbtnDisabled(false)
+            setBtnDisabled(false)
         }
         
         setText(e.target.value)
     }
-    const handlerSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
         if (text.trim().length > 10){
             const newFeedback = {
@@ -51,8 +51,8 @@ function FeedbackForm() {
     } else {
     addFeedback(newFeedback)
     }
-    // NOTE: reset to default state after submission
-//   setBtnDisabled(true) // 👈  add this line to reset disabled
+
+    setBtnDisabled(true) // 👈  add this line to reset disabled
     setRating(10) //👈 add this line to set rating back to 10
     setText('')
 }
@@ -60,7 +60,7 @@ function FeedbackForm() {
 
 return (
 <Card>
-    <form onSubmit={handlerSubmit}>
+    <form onSubmit={handleSubmit}>
         <h2>How would you rate your service with us?</h2>
         <RatingSelect select={(rating)=>setRating(rating)}/>
         <div className="input-group">
